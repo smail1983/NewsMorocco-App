@@ -3,8 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:url_launcher/url_launcher.dart';
 
-const String newsUrl =
-    'https://smail1983.github.io/Nwesmomroco/news.json';
+const List<String> newsUrls = [
+  'https://smail1983.github.io/Nwesmomroco/news.json',
+  'https://raw.githubusercontent.com/smail1983/Nwesmomroco/main/news.json',
+];
 
 void main() {
   runApp(const NewsMoroccoApp());
@@ -85,29 +87,46 @@ class _HomePageState extends State<HomePage> {
     });
 
     try {
-      final response = await http
-          .get(Uri.parse('$newsUrl?t=${DateTime.now().millisecondsSinceEpoch}'))
-          .timeout(const Duration(seconds: 15));
+      List<Article>? loaded;
 
-      if (response.statusCode != 200) {
-        throw Exception('HTTP ${response.statusCode}');
+      for (final baseUrl in newsUrls) {
+        try {
+          final response = await http
+              .get(Uri.parse('$baseUrl?t=${DateTime.now().millisecondsSinceEpoch}'))
+              .timeout(const Duration(seconds: 12));
+
+          if (response.statusCode != 200) continue;
+
+          final decoded = jsonDecode(utf8.decode(response.bodyBytes));
+          final raw = decoded is List
+              ? decoded
+              : (decoded is Map<String, dynamic>
+                  ? (decoded['articles'] ?? [])
+                  : []);
+
+          final list = <Article>[];
+          for (final item in raw) {
+            if (item is Map) {
+              list.add(Article.fromJson(Map<String, dynamic>.from(item)));
+            }
+          }
+
+          if (list.isNotEmpty) {
+            loaded = list;
+            break;
+          }
+        } catch (_) {
+          // Try the next news source.
+        }
       }
 
-      final decoded = jsonDecode(utf8.decode(response.bodyBytes));
-      final raw = decoded is List
-          ? decoded
-          : (decoded is Map<String, dynamic> ? (decoded['articles'] ?? []) : []);
-
-      final list = <Article>[];
-      for (final item in raw) {
-        if (item is Map<String, dynamic>) {
-          list.add(Article.fromJson(item));
-        }
+      if (loaded == null) {
+        throw Exception('All news sources failed');
       }
 
       if (!mounted) return;
       setState(() {
-        articles = list;
+        articles = loaded!;
         loading = false;
       });
     } catch (_) {
@@ -310,11 +329,24 @@ class _HomePageState extends State<HomePage> {
   }
 
   Widget _chip(String value, String label, IconData icon) {
+    const tabForCategory = {
+      'sports': 0,
+      'all': 1,
+      'business': 2,
+      'technology': 3,
+    };
+
     return Padding(
       padding: const EdgeInsets.only(left: 8),
       child: ChoiceChip(
         selected: selectedCategory == value,
-        onSelected: (_) => setState(() => selectedCategory = value),
+        onSelected: (_) {
+          setState(() {
+            selectedCategory = value;
+            selectedTab = tabForCategory[value] ?? 0;
+            search = '';
+          });
+        },
         avatar: Icon(icon, size: 18),
         label: Text(label),
       ),
