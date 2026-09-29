@@ -23,6 +23,21 @@ jobs:
       - name: Generate Android project files
         run: flutter create . --platforms=android --org=com.newsmorocco --project-name=news_morocco
 
+      - name: Enable internet access for release APK
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+          p = Path("android/app/src/main/AndroidManifest.xml")
+          s = p.read_text()
+          permission = '<uses-permission android:name="android.permission.INTERNET"/>'
+          if permission not in s:
+              s = s.replace('<manifest ', '<manifest ')
+              s = s.replace('\\n', '\\n')
+              marker = '<application'
+              s = s.replace(marker, permission + '\\n    ' + marker, 1)
+              p.write_text(s)
+          PY
+
       - name: Prepare app icon
         run: |
           sudo apt-get update -qq
