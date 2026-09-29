@@ -6,7 +6,7 @@ on:
     branches: ["main"]
 
 permissions:
-  contents: read
+  contents: write
 
 jobs:
   build:
@@ -44,6 +44,18 @@ jobs:
 
       - name: Build App Bundle
         run: flutter build appbundle --release
+
+      - name: Prepare APK for release
+        run: cp build/app/outputs/flutter-apk/app-release.apk NewsMorocco.apk
+
+      - name: Create GitHub Release with APK
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: v1.0.${{ github.run_number }}
+          name: NewsMorocco v1.0.${{ github.run_number }}
+          generate_release_notes: true
+          make_latest: true
+          files: NewsMorocco.apk
 
       - name: Upload APK
         uses: actions/upload-artifact@v4
