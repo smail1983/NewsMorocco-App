@@ -25,7 +25,8 @@ jobs:
 
       - name: Prepare app icon
         run: |
-          mkdir -p assets
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq imagemagick
           convert -background none assets/icon.svg -resize 1024x1024 assets/icon.png
 
       - name: Get packages
