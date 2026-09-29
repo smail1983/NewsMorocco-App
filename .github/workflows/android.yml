@@ -21,7 +21,7 @@ jobs:
           channel: stable
 
       - name: Generate Android project files
-        run: flutter create . --platforms=android --project-name=news_morocco
+        run: flutter create . --platforms=android --org=com.newsmorocco --project-name=news_morocco
 
       - name: Get packages
         run: flutter pub get
