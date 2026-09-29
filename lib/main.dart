@@ -3,8 +3,11 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:url_launcher/url_launcher.dart';
 
+// NewsMorocco website is the single source of truth for the app.
+// The app reads the same news.json that the website updates automatically.
 const List<String> newsUrls = [
   'https://smail1983.github.io/Nwesmomroco/news.json',
+  // Backup only if GitHub Pages is temporarily unavailable.
   'https://raw.githubusercontent.com/smail1983/Nwesmomroco/main/news.json',
 ];
 
@@ -52,7 +55,7 @@ class Article {
       title: (json['title'] ?? '').toString(),
       description: (json['description'] ?? '').toString(),
       url: (json['url'] ?? '').toString(),
-      source: (json['source'] ?? '').toString(),
+      source: (json['source'] ?? json['domain'] ?? '').toString(),
       category: (json['category'] ?? 'general').toString(),
       image: (json['image'] ?? '').toString(),
     );
