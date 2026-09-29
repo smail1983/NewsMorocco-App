@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+<defs>
+<radialGradient id="bg" cx="50%" cy="45%" r="65%"><stop offset="0" stop-color="#e33b3b"/><stop offset=".62" stop-color="#a21f2d"/><stop offset="1" stop-color="#092a2a"/></radialGradient>
+<linearGradient id="gold" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#fff0a8"/><stop offset=".45" stop-color="#d9a83d"/><stop offset="1" stop-color="#fff0a8"/></linearGradient>
+<linearGradient id="swoosh" x1="0" y1="1" x2="1" y2="0"><stop stop-color="#009c54"/><stop offset=".5" stop-color="#fff"/><stop offset="1" stop-color="#d9293e"/></linearGradient>
+<filter id="shadow"><feDropShadow dx="0" dy="5" stdDeviation="7" flood-opacity=".45"/></filter>
+</defs>
+<rect width="512" height="512" rx="110" fill="#071b25"/>
+<circle cx="256" cy="256" r="232" fill="url(#bg)" stroke="url(#gold)" stroke-width="14" filter="url(#shadow)"/>
+<circle cx="256" cy="256" r="207" fill="none" stroke="#f2d77a" stroke-width="5" stroke-dasharray="7 7"/>
+<path d="M106 302 C164 370 250 385 357 320 C393 298 414 269 424 238" fill="none" stroke="#071b25" stroke-width="31" stroke-linecap="round"/>
+<path d="M106 296 C164 364 250 379 357 314 C393 292 414 263 424 232" fill="none" stroke="url(#swoosh)" stroke-width="19" stroke-linecap="round"/>
+<path d="M256 148 l13 35 37 1 -29 22 10 36 -31 -21 -31 21 10 -36 -29 -22 37 -1z" fill="#078a4c" stroke="#063a2b" stroke-width="5"/>
+<g transform="translate(350 165)" filter="url(#shadow)">
+<circle r="55" fill="#f6f6f1" stroke="#101d25" stroke-width="7"/>
+<path d="M0-17l17-12 21 8 7 23-17 14-22-7z" fill="#17222b"/>
+<path d="M-17-12l-8-24 22-16 22 10-4 25z" fill="#fff"/>
+<path d="M-38 14l18-8 20 17-6 23-24-5z" fill="#fff"/>
+<path d="M8 16l22-2 16 18-10 22-23-9z" fill="#fff"/>
+<path d="M-4 43l6-22 23 8 3 21-17 11z" fill="#fff"/>
+</g>
+<text x="256" y="350" text-anchor="middle" direction="rtl" font-family="Arial, Tahoma, sans-serif" font-size="45" font-weight="800" fill="#fff" stroke="#14212b" stroke-width="7" paint-order="stroke">أخبار رياضية</text>
+<text x="256" y="405" text-anchor="middle" direction="rtl" font-family="Arial, Tahoma, sans-serif" font-size="43" font-weight="800" fill="#f7d06b" stroke="#14212b" stroke-width="7" paint-order="stroke">مغربية</text>
+</svg>
